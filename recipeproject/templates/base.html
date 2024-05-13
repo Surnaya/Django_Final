@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Мой сайт рецептов{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <h1>Мой сайт рецептов</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Главная</a></li>
+                <!-- Cсылки на другие страницы -->
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        <!-- Здесь будет контент для каждой страницы -->
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Мой сайт рецептов</p>
+    </footer>
+</body>
+</html>
