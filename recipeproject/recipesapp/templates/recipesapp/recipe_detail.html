@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Recipe Detail{% endblock %}
+
+{% block content %}
+    <h1>{{ recipe.title }}</h1>
+    <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
+    <p><strong>Cooking Time:</strong> {{ recipe.cooking_time }} minutes</p>
+    <p><strong>Ingredients:</strong> {{ recipe.ingredients }}</p>
+    <p><strong>Description:</strong> {{ recipe.description }}</p>
+    <p><strong>Author:</strong> {{ recipe.author.username }}</p>
+    <p><strong>Category:</strong>
+        {% for category in recipe.category.all %}
+            {{ category.name }}{% if not forloop.last %}, {% endif %}
+        {% empty %}
+            None
+        {% endfor %}
+    </p>
+{% endblock %}

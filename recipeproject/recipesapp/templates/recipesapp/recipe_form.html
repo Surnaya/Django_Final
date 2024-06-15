@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}New Recipe{% endblock %}
+
+{% block content %}
+    <h1>New Recipe</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <p>
+            <label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
+            {{ form.title }}
+        </p>
+        <p>
+            <label for="{{ form.image.id_for_label }}">{{ form.image.label }}</label>
+            {{ form.image }}
+        </p>
+        <p>
+            <label for="{{ form.category.id_for_label }}">{{ form.category.label }}</label>
+            {{ form.category }}
+        </p>
+        <p>
+            <label for="{{ form.new_category.id_for_label }}">{{ form.new_category.label }}</label>
+            {{ form.new_category }}
+        </p>
+        <p>
+            <label for="{{ form.cooking_time.id_for_label }}">{{ form.cooking_time.label }}</label>
+            {{ form.cooking_time }}
+        </p>
+        <p>
+            <label for="{{ form.ingredients.id_for_label }}">{{ form.ingredients.label }}</label>
+            {{ form.ingredients }}
+        </p>
+        <p>
+            <label for="{{ form.description.id_for_label }}">{{ form.description.label }}</label>
+            {{ form.description }}
+        </p>
+
+        <button type="submit">Save</button>
+    </form>
+{% endblock %}
