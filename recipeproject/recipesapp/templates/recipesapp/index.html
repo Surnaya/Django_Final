@@ -14,4 +14,17 @@
     <br>
     <a href="{% url 'recipe_list' %}">View Recipes</a>
     <a href="{% url 'recipe_create' %}">Add New Recipe</a>
+
+    <h2>Random Recipes</h2>
+    <div class="random-recipes">
+    {% for recipe in recipes %}
+        <div class="recipe-summary">
+            <h3><a href="{% url 'recipe_detail' recipe.pk %}">{{ recipe.title }}</a></h3>
+            <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
+            <p>Category: {% for category in recipe.category.all %}{{ category.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+            <p>Cooking time: {{ recipe.cooking_time }} minutes</p>
+            <p>Ingredients: {{ recipe.ingredients|truncatewords:20 }}</p>
+        </div>
+    {% endfor %}
+    </div>
 {% endblock %}
