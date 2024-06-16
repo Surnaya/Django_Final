@@ -24,6 +24,7 @@ def recipe_detail(request, pk):
     recipe = Recipe.objects.get(pk=pk)
     return render(request, 'recipesapp/recipe_detail.html', {'recipe': recipe})
 
+
 def recipe_create(request):
     if request.method == 'POST':
         form = RecipeForm(request.POST, request.FILES)
@@ -50,6 +51,7 @@ def recipe_create(request):
         form = RecipeForm()
     return render(request, 'recipesapp/recipe_form.html', {'form': form})
 
+
 def signup_view(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -70,6 +72,7 @@ def login_view(request):
             auth_login(request, form.get_user())
             return redirect('index')
     return render(request, 'registration/login.html', {'form': form})
+
 
 @login_required
 def recipe_delete(request, pk):
@@ -104,3 +107,14 @@ def recipe_edit(request, pk):
     else:
         form = RecipeForm(instance=recipe)
     return render(request, 'recipesapp/recipe_form.html', {'form': form, 'edit': True})
+
+
+def category_list(request):
+    category = RecipeCategory.objects.all()
+    return render(request, 'recipesapp/category_list.html', {'category': category})
+
+
+def category_detail(request, pk):
+    category = get_object_or_404(RecipeCategory, pk=pk)
+    recipes = Recipe.objects.filter(category=category)
+    return render(request, 'recipesapp/category_detail.html', {'category': category, 'recipes': recipes})

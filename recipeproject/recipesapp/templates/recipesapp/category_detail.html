@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ category.name }} Recipes{% endblock %}
+
+{% block content %}
+    <h1>{{ category.name }}</h1>
+    <ul>
+        {% for recipe in recipes %}
+            <li>
+                <a href="{% url 'recipe_detail' recipe.pk %}">{{ recipe.title }}</a><br>
+                <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" style="width:100px;height:auto;"><br>
+                Cooking time: {{ recipe.cooking_time }} minutes<br>
+                Ingredients: {{ recipe.ingredients }}<br>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -6,7 +6,7 @@
     <h1>{{ recipe.title }}</h1>
 <!--    <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">-->
     {% if recipe.image %}
-        <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
+        <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" style="width:100px;height:auto;">
     {% else %}
         <p>No image available</p>
     {% endif %}

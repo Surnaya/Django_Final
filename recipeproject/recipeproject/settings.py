@@ -27,7 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+LOGIN_REDIRECT_URL = 'index'  # Перенаправление на главную страницу после логина
+LOGOUT_REDIRECT_URL = 'index'  # Перенаправление на главную страницу после выхода
 # Application definition
 
 INSTALLED_APPS = [
