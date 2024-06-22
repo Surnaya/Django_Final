@@ -1,30 +1,32 @@
 {% extends 'base.html' %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Главная{% endblock %}
 
 {% block content %}
-    <h1>Welcome to the Recipe Site</h1>
-    {% if user.is_authenticated %}
-        <p>Hello, {{ user.username }}! You are logged in.</p>
-        <a href="{% url 'logout' %}">Logout</a>
-    {% else %}
-        <p>You are not logged in.</p>
-        <a href="{% url 'login' %}">Login</a> | <a href="{% url 'signup' %}">Sign Up</a>
-    {% endif %}
-    <br>
-    <a href="{% url 'recipe_list' %}">View Recipes</a>
-    <a href="{% url 'recipe_create' %}">Add New Recipe</a>
-
-    <h2>Random Recipes</h2>
-    <div class="random-recipes">
-    {% for recipe in recipes %}
-        <div class="recipe-summary">
-            <h3><a href="{% url 'recipe_detail' recipe.pk %}">{{ recipe.title }}</a></h3>
-            <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" style="width:100px;height:auto;">
-            <p>Category: {% for category in recipe.category.all %}{{ category.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
-            <p>Cooking time: {{ recipe.cooking_time }} minutes</p>
-            <p>Ingredients: {{ recipe.ingredients|truncatewords:20 }}</p>
+    <div class="intro">
+        <div class="container">
+            <p>Добро пожаловать в Рецептопедию! Это мой учебный проект по веб-разработке на Python</p>
+            {% if user.is_authenticated %}
+                <p>Привет, {{ user.username }}! Теперь ты можешь добавлять и редактировать свои рецепты в Рецептопедии.</p>
+            {% else %}
+                <p>Для того, чтобы добавлять свои рецепты, пожалуйста, зарегистрируйтесь.</p>
+            {% endif %}
         </div>
-    {% endfor %}
+    </div>
+
+    <div class="random-recipes">
+        <div class="container">
+            <h2>Рецепты дня</h2>
+            {% for recipe in recipes %}
+                <div class="recipe-summary">
+                    <h3><a href="{% url 'recipe_detail' recipe.pk %}">{{ recipe.title }}</a></h3>
+                    <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
+                    <p>Категория: {% for category in recipe.category.all %}<a href="{% url 'category_detail' category.pk %}">{{ category.name }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+                    <p>Время приготовления: {{ recipe.cooking_time }} минут</p>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}
+
+

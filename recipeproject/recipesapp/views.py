@@ -10,10 +10,10 @@ from .models import Recipe, RecipeCategory
 
 
 def index(request):
-    all_recipes = list(Recipe.objects.all())
-    random_recipes = random.sample(all_recipes, min(len(all_recipes), 3))
-    return render(request, 'recipesapp/index.html', {'recipes': random_recipes})
-
+    categories = RecipeCategory.objects.all()
+    recipes = list(Recipe.objects.all())
+    random_recipes = random.sample(recipes, 3) if len(recipes) >= 3 else recipes
+    return render(request, 'recipesapp/index.html', {'categories': categories, 'recipes': random_recipes})
 
 def recipe_list(request):
     recipes = Recipe.objects.all()
@@ -91,6 +91,7 @@ def recipe_edit(request, pk):
         return HttpResponseForbidden("You are not allowed to edit this recipe.")
 
     if request.method == 'POST':
+        print('yes')
         form = RecipeForm(request.POST, request.FILES, instance=recipe)
         if form.is_valid():
             recipe = form.save(commit=False)
@@ -105,6 +106,7 @@ def recipe_edit(request, pk):
 
             return redirect('recipe_detail', pk=recipe.pk)
     else:
+        print('no')
         form = RecipeForm(instance=recipe)
     return render(request, 'recipesapp/recipe_form.html', {'form': form, 'edit': True})
 
@@ -118,3 +120,8 @@ def category_detail(request, pk):
     category = get_object_or_404(RecipeCategory, pk=pk)
     recipes = Recipe.objects.filter(category=category)
     return render(request, 'recipesapp/category_detail.html', {'category': category, 'recipes': recipes})
+
+
+def my_recipes(request):
+    recipes = Recipe.objects.filter(author=request.user)
+    return render(request, 'recipesapp/my_recipes.html', {'recipes': recipes})

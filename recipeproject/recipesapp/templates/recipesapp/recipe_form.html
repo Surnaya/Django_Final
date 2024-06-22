@@ -5,39 +5,39 @@
 {% endblock %}
 
 {% block content %}
-    <h1>{% if edit %}Edit Recipe{% else %}New Recipe{% endif %}</h1>
+    <h2>{% if edit %}Редактировать рецепт{% else %}Новый рецепт{% endif %}</h2>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.non_field_errors }}
         <p>
-            <label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
+            <label for="{{ form.title.id_for_label }}">Название</label>
             {{ form.title }}
         </p>
         <p>
-            <label for="{{ form.image.id_for_label }}">{{ form.image.label }}</label>
+            <label for="{{ form.image.id_for_label }}">Изображение</label>
             {{ form.image }}
         </p>
         <p>
-            <label for="{{ form.category.id_for_label }}">{{ form.category.label }}</label>
+            <label for="{{ form.category.id_for_label }}">Категория</label>
             {{ form.category }}
         </p>
         <p>
-            <label for="{{ form.new_category.id_for_label }}">{{ form.new_category.label }}</label>
+            <label for="{{ form.new_category.id_for_label }}">Новая категория</label>
             {{ form.new_category }}
         </p>
         <p>
-            <label for="{{ form.cooking_time.id_for_label }}">{{ form.cooking_time.label }}</label>
+            <label for="{{ form.cooking_time.id_for_label }}">Время приготовления</label>
             {{ form.cooking_time }}
         </p>
         <p>
-            <label for="{{ form.ingredients.id_for_label }}">{{ form.ingredients.label }}</label>
+            <label for="{{ form.ingredients.id_for_label }}">Ингридиенты</label>
             {{ form.ingredients }}
         </p>
         <p>
-            <label for="{{ form.description.id_for_label }}">{{ form.description.label }}</label>
+            <label for="{{ form.description.id_for_label }}">Описание</label>
             {{ form.description }}
         </p>
 
-        <button type="submit">{% if edit %}Update{% else %}Save{% endif %}</button>
+        <button type="submit" class="action-button">{% if edit %}Обновить{% else %}Сохранить{% endif %}</button>
     </form>
 {% endblock %}

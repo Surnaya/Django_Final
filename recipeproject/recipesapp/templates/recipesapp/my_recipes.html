@@ -1,18 +1,22 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ category.name }} Recipes{% endblock %}
+{% block title %}My Recipes{% endblock %}
 
 {% block content %}
-    <h2>{{ category.name }}</h2>
+<h2>Мои рецепты</h2>
+{% if recipes %}
     <ul>
         {% for recipe in recipes %}
             <div class="recipe-summary">
                 <h3><a href="{% url 'recipe_detail' recipe.pk %}">{{ recipe.title }}</a></h3>
-                <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" style="width:100px;height:auto;">
-<!--                <p>Категория: {% for category in recipe.category.all %}{{ category.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>-->
+                <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
+                <p>Категория: {% for category in recipe.category.all %}<a href="{% url 'category_detail' category.pk %}">{{ category.name }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</p>
                 <p>Время приготовления: {{ recipe.cooking_time }} минут</p>
                 <p>Ингридиенты: {{ recipe.ingredients|truncatewords:20 }}</p>
             </div>
         {% endfor %}
     </ul>
+{% else %}
+    <p>Вы пока не добавили ни одного рецепта ...</p>
+{% endif %}
 {% endblock %}

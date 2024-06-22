@@ -4,32 +4,30 @@
 
 {% block content %}
     <h1>{{ recipe.title }}</h1>
-<!--    <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">-->
     {% if recipe.image %}
-        <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" style="width:100px;height:auto;">
+        <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" class="recipe-image">
     {% else %}
-        <p>No image available</p>
+        <p>Изображение отсутствует</p>
     {% endif %}
-    <p><strong>Cooking Time:</strong> {{ recipe.cooking_time }} minutes</p>
-    <p><strong>Ingredients:</strong> {{ recipe.ingredients }}</p>
-    <p><strong>Description:</strong> {{ recipe.description }}</p>
-    <p><strong>Author:</strong> {{ recipe.author.username }}</p>
-    <p><strong>Category:</strong>
+    <p><strong>Время приготовления:</strong> {{ recipe.cooking_time }} минут</p>
+    <p class="ingredients-list"><strong>Ингридиенты:</strong> {{ recipe.ingredients }}</p>
+    <p class="description"><strong>Описание:</strong> {{ recipe.description }}</p>
+    <p><strong>Автор:</strong> {{ recipe.author.username }}</p>
+    <p><strong>Категория:</strong>
         {% for category in recipe.category.all %}
-            {{ category.name }}{% if not forloop.last %}, {% endif %}
+            <a href="{% url 'category_detail' category.pk %}">{{ category.name }}</a>{% if not forloop.last %}, {% endif %}
         {% empty %}
             None
         {% endfor %}
     </p>
     {% if user == recipe.author %}
-        <form method="post" action="{% url 'recipe_delete' recipe.pk %}">
-            {% csrf_token %}
-            <button type="submit">Delete</button>
-        </form>
-<!--        <a href="{% url 'recipe_edit' recipe.pk %}">Edit</a>-->
-        <form method="post" action="{% url 'recipe_edit' recipe.pk %}">
-            {% csrf_token %}
-            <button type="submit">Edit</button>
-        </form>
+        <div class="action-buttons">
+            <a href="{% url 'recipe_edit' recipe.pk %}" class="action-button">Редактировать</a>
+            <form method="post" action="{% url 'recipe_delete' recipe.pk %}" class="action-form">
+                {% csrf_token %}
+                <button type="submit" class="action-button">Удалить</button>
+            </form>
+
+        </div>
     {% endif %}
 {% endblock %}

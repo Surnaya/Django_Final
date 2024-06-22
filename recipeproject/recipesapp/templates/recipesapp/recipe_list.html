@@ -1,16 +1,19 @@
 {% extends 'base.html' %}
 
-{% block title %}Recipes{% endblock %}
+{% block title %}Рецепты{% endblock %}
 
 {% block content %}
-    <h1>Recipes</h1>
-    <a href="{% url 'recipe_create' %}">Add New Recipe</a>
-    <ul>
-        {% for recipe in recipes %}
-            <li>
-                <a href="{% url 'recipe_detail' recipe.pk %}">{{ recipe.title }}</a>
-                - {{ recipe.cooking_time }} minutes
-            </li>
-        {% endfor %}
-    </ul>
+    <h2>Рецепты</h2>
+    <div class="container">
+        <ul class="recipe-list">
+            {% for recipe in recipes %}
+                <div class="recipe-summary">
+                    <h3><a href="{% url 'recipe_detail' recipe.pk %}">{{ recipe.title }}</a></h3>
+                    <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
+                    <p>Категория: {% for category in recipe.category.all %}<a href="{% url 'category_detail' category.pk %}">{{ category.name }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+                    <p>Время приготовления: {{ recipe.cooking_time }} минут</p>
+                </div>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}
