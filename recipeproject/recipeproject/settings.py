@@ -19,12 +19,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-o$9yv7_+y*me3+z0s%=3qrq1@*7fm&+9r#6emyvr&n(3d-yqzy"
-
+# SECRET_KEY = "django-insecure-o$9yv7_+y*me3+z0s%=3qrq1@*7fm&+9r#6emyvr&n(3d-yqzy"
+SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+DEBUG = False
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'recipepedia.pythonanywhere.com',
+]
 
 LOGIN_REDIRECT_URL = 'index'  # Перенаправление на главную страницу после логина
 LOGOUT_REDIRECT_URL = 'index'  # Перенаправление на главную страницу после выхода
@@ -76,9 +82,16 @@ WSGI_APPLICATION = "recipeproject.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'recipepedia$default',
+        'USER': 'recipepedia',
+        'PASSWORD': os.getenv('MYSQL_PASSWORD'),
+        'HOST': 'recipepedia.mysql.pythonanywhere-services.com',
+        'OPTIONS': {
+            'init_command': "SET NAMES 'utf8mb4';SET sql_mode='STRICT_TRANS_TABLES'",
+            'charset': 'utf8mb4',
+        },
     }
 }
 
@@ -119,14 +132,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 
-
-
 STATIC_URL = '/static/'
-
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'recipesapp/static'),
 ]
-
+STATIC_ROOT = BASE_DIR / 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
