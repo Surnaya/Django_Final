@@ -15,17 +15,21 @@ def index(request):
     random_recipes = random.sample(recipes, 3) if len(recipes) >= 3 else recipes
     return render(request, 'recipesapp/index.html', {'categories': categories, 'recipes': random_recipes})
 
+
 def recipe_list(request):
     recipes = Recipe.objects.all()
-    return render(request, 'recipesapp/recipe_list.html', {'recipes': recipes})
+    categories = RecipeCategory.objects.all()
+    return render(request, 'recipesapp/recipe_list.html', {'categories': categories, 'recipes': recipes})
 
 
 def recipe_detail(request, pk):
     recipe = Recipe.objects.get(pk=pk)
-    return render(request, 'recipesapp/recipe_detail.html', {'recipe': recipe})
+    categories = RecipeCategory.objects.all()
+    return render(request, 'recipesapp/recipe_detail.html', {'categories': categories, 'recipe': recipe})
 
 
 def recipe_create(request):
+    categories = RecipeCategory.objects.all()
     if request.method == 'POST':
         form = RecipeForm(request.POST, request.FILES)
         if form.is_valid():
@@ -49,10 +53,11 @@ def recipe_create(request):
             return redirect('recipe_detail', pk=recipe.pk)
     else:
         form = RecipeForm()
-    return render(request, 'recipesapp/recipe_form.html', {'form': form})
+    return render(request, 'recipesapp/recipe_form.html', {'categories': categories, 'form': form})
 
 
 def signup_view(request):
+    categories = RecipeCategory.objects.all()
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
@@ -61,17 +66,18 @@ def signup_view(request):
             return redirect('index')
     else:
         form = SignUpForm()
-    return render(request, 'registration/signup.html', {'form': form})
+    return render(request, 'registration/signup.html', {'categories': categories, 'form': form})
 
 
 def login_view(request):
+    categories = RecipeCategory.objects.all()
     form = AuthenticationForm()
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
             auth_login(request, form.get_user())
             return redirect('index')
-    return render(request, 'registration/login.html', {'form': form})
+    return render(request, 'registration/login.html', {'categories': categories, 'form': form})
 
 
 @login_required
@@ -117,11 +123,13 @@ def category_list(request):
 
 
 def category_detail(request, pk):
+    categories = RecipeCategory.objects.all()
     category = get_object_or_404(RecipeCategory, pk=pk)
     recipes = Recipe.objects.filter(category=category)
-    return render(request, 'recipesapp/category_detail.html', {'category': category, 'recipes': recipes})
+    return render(request, 'recipesapp/category_detail.html', {'categories': categories, 'category': category, 'recipes': recipes})
 
 
 def my_recipes(request):
+    categories = RecipeCategory.objects.all()
     recipes = Recipe.objects.filter(author=request.user)
-    return render(request, 'recipesapp/my_recipes.html', {'recipes': recipes})
+    return render(request, 'recipesapp/my_recipes.html', {'categories': categories, 'recipes': recipes})

@@ -24,8 +24,10 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
 DEBUG = False
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SECURE = False  # установите в False, если работаете с HTTP
+SESSION_COOKIE_SECURE = False  # установите в False, если работаете с HTTP
+
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
